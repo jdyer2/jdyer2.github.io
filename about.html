@@ -4,10 +4,44 @@
       <title> About Me </title>
           <link rel="stylesheet" href="site.css">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
+          <script>
+               window.onload = function() {
+                 // functions that run after page loads
+                 displayGreeting();
+                 fetchWeather();
+               }
+               // display good morning, afternoon or evening based on the time
+               function displayGreeting() {
+                 var date = new Date();
+                 var hour = date.getHours();
+                 var description = "";
+                 if (hour < 12) {
+                   description = "morning";
+                 } else if (hour < 17) {
+                   description = "afternoon";
+                 } else {
+                   description = "evening";
+                 }
+                 document.getElementById("greeting").innerHTML = "Good " + description + " it is curently";
+               }
+               // get weather data from openweathermap and display the current temp
+               function fetchWeather() {
+                 fetch("https://api.openweathermap.org/data/2.5/weather?zip=85719,US&appid=7610d45a2cd6dce2cbdb3788e6221885&units=imperial")
+                 .then(function(resp) { return resp.json() })
+                 .then(function(data) {
+                   document.getElementById("weather").innerHTML = data.main.temp;
+                 })
+                 .catch(function() {
+                   document.getElementById("weather").innerHTML = "Error in fetchWeather function";
+                 });
+               }
+             </script>
+           </head>
     <body>
-      <div class="name_container"></div>
-        Johnny Dyer
+      <div id="greeting"></div>
+      <div><a id="weather"></a>°</div>
+      <div>in Tucson AZ</div>
+      <div class="name_container">Johnny Dyer</div>
       <div class="content_container"></div>
       <div class="image_container"> <img src="https://tucson.com/app/images/ua/storm.jpg" width= "600"> </div>
       <div class="bio_container">
