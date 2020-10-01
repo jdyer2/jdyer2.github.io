@@ -4,11 +4,13 @@
       <title> About Me </title>
           <link rel="stylesheet" href="site.css">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <script src="https://storage.googleapis.com/feednami-static/js/feednami-client-v1.0.1.js"></script>
           <script>
-               window.onload = function() {
+            window.onload = function() {
                  // functions that run after page loads
                  displayGreeting();
                  fetchWeather();
+                 displayRSSFeed();
                }
                // display good morning, afternoon or evening based on the time
                function displayGreeting() {
@@ -22,25 +24,42 @@
                  } else {
                    description = "evening";
                  }
-                 document.getElementById("greeting").innerHTML = "Good " + description + " it is curently";
+                 document.getElementById("greeting").innerHTML = "Good " + description;
                }
                // get weather data from openweathermap and display the current temp
                function fetchWeather() {
                  fetch("https://api.openweathermap.org/data/2.5/weather?zip=85719,US&appid=7610d45a2cd6dce2cbdb3788e6221885&units=imperial")
                  .then(function(resp) { return resp.json() })
                  .then(function(data) {
-                   document.getElementById("weather").innerHTML = data.main.temp;
+                   document.getElementById("weather").innerHTML = " It is currently " + data.main.temp + "&deg; in Tucson AZ";
                  })
                  .catch(function() {
                    document.getElementById("weather").innerHTML = "Error in fetchWeather function";
                  });
                }
-             </script>
+               function displayRSSFeed() {
+                       // fetch an RSS feed and display the title and description
+                       var origURL = 'https://tucson.com/search/?f=rss&t=article&c=news/local&l=25&s=start_time&sd=desc';
+                       // feednami doesn't like & so replace with %26
+                       var replacedURL = origURL.replace("%26");
+                       feednami.load(replacedURL,function(result) {
+                         if (result.error) {
+                           console.log(result.error);
+                         } else {
+                           var entries = result.feed.entries
+                           for (var i = 0; i < entries.length; i++) {
+                             var entry = entries[i];
+                             let divElement = '<div class="rss_title"><a href="' + entry.link + '" target="_blank">' + entry.title + '</a></div><div class="rss_description">' + entry.description + '</div>';
+                             document.getElementById("rss_items").innerHTML += divElement;
+                           }
+                         }
+                       });
+                     }
+              </script>
            </head>
     <body>
       <div id="greeting"></div>
-      <div><a id="weather"></a>°</div>
-      <div>in Tucson AZ</div>
+      <div id="weather"></div>
       <div class="name_container">Johnny Dyer</div>
       <div class="content_container"></div>
       <div class="image_container"> <img src="https://tucson.com/app/images/ua/storm.jpg" width= "600"> </div>
@@ -55,6 +74,8 @@
           <a href="https://www.washingtonpost.com/" target= "_blank">washingtonpost.com</a>
           <a href="https://www.espn.com/" target= "_blank">espn.com</a>
           <a href="https://www.cnn.com/" target= "_blank">cnn.com</a>
+        <div class="newsfeed"> Some Cool Stories </div>
+        <div id="rss_items"></div>
         </div>
       </body>
 </html>
