@@ -49,7 +49,23 @@ img {
   border-style: solid;
   font-size: 1em;
 }
-.newsfeed
-{
+.newsfeed{
   font-size: 2em;
+}
+#cell{
+}
+.cell
+{
+border: 1px solid black;
+padding: 5px 5px 5px 5px:
+margin: 5px 5px 5px 5px;
+}
+.cell_name{
+font-weight: bold;
+}
+.cell_address{
+font-style: inherit;
+}
+.cell_phone{
+font-style: oblique;
 }

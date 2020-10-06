@@ -11,6 +11,7 @@
                  displayGreeting();
                  fetchWeather();
                  displayRSSFeed();
+                 listSheet();
                }
                // display good morning, afternoon or evening based on the time
                function displayGreeting() {
@@ -55,6 +56,28 @@
                          }
                        });
                      }
+                     function listSheet() {
+                        // list google sheet rows
+                        fetch('https://api.sheetson.com/v2/sheets/Sheet1', {
+                          withCredentials: true,
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer _gC-LpksY9jIXTuszPywYCge6bh946s8wQnhOml71xupPAEPc-uFEBZAToZ0zw',
+                            'X-Sheetson-Spreadsheet-Id': '1hI94x6RUVsjjfrp9bZGwEfUc3pm-YB9gjEZnwOh8ESA'
+                          }
+                        })
+                        .then(function(resp) { return resp.json() })
+                        .then(function(data) {
+                          for (var i = 0; i < data.results.length; i++) {
+                            var result = data.results[i];
+                            let divElement = '<div class="cell">' + '<div class="cell_name">' + result.name + '</div>' + '<div class="cell_address">' + result.address + '</div>' + '<div class="cell_url"><a href="' + result.url + '">' + result.url + '</a></div>' + '<div class="cell_phone">' + result.phone + '</div>' + '</div>';
+                            document.getElementById("sheet").innerHTML += divElement;
+                          }
+                        })
+                        .catch(function() {
+                          document.getElementById("sheet").innerHTML = "Error in listSheet function";
+                        });
+                      }
               </script>
            </head>
     <body>
@@ -76,6 +99,8 @@
           <a href="https://www.cnn.com/" target= "_blank">cnn.com</a>
         <div class="newsfeed"> Some Cool Stories </div>
         <div id="rss_items"></div>
+        <h2> COVID TESTING </h2>
+        <div id="sheet"></div>
         </div>
       </body>
 </html>
