@@ -4,14 +4,23 @@
       <title> About Me </title>
           <link rel="stylesheet" href="site.css">
           <meta name="viewport" content="width=device-width, initial-scale=1">
+
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+
+          <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
+
+
           <script src="https://storage.googleapis.com/feednami-static/js/feednami-client-v1.0.1.js"></script>
           <script>
             window.onload = function() {
                  // functions that run after page loads
+                 var mymap = drawMap();
                  displayGreeting();
                  fetchWeather();
                  displayRSSFeed();
-                 listSheet();
+                 listSheet(mymap);
+                 drawMap();
+                 addPin();
                }
                // display good morning, afternoon or evening based on the time
                function displayGreeting() {
@@ -56,9 +65,10 @@
                          }
                        });
                      }
-                     function listSheet() {
+
+                 function listSheet() {
                         // list google sheet rows
-                        fetch('https://api.sheetson.com/v2/sheets/Sheet1', {
+                        fetch('https://api.sheetson.com/v2/sheets/Sheet1no-cache=true', {
                           withCredentials: true,
                           headers: {
                             'Content-Type': 'application/json',
@@ -72,13 +82,34 @@
                             var result = data.results[i];
                             let divElement = '<div class="cell">' + '<div class="cell_name">' + result.name + '</div>' + '<div class="cell_address">' + result.address + '</div>' + '<div class="cell_url"><a href="' + result.url + '">' + result.url + '</a></div>' + '<div class="cell_phone">' + result.phone + '</div>' + '</div>';
                             document.getElementById("sheet").innerHTML += divElement;
+
+                            //addPin(mymap, result.lat, result.lon, '<strong>' + result.name + '</stong>');
                           }
                         })
                         .catch(function() {
                           document.getElementById("sheet").innerHTML = "Error in listSheet function";
                         });
                       }
-              </script>
+
+                function drawMap() {
+                  // draw a map using leafletjs and tiles from mapbox
+                  var mymap = L.map('mapid').setView([32.221041, -110.971143], 15);
+                  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                      maxZoom: 18,
+                      id: 'mapbox/streets-v11',
+                      tileSize: 512,
+                      zoomOffset: -1,
+                      accessToken: 'pk.eyJ1IjoiamR5ZXIxIiwiYSI6ImNrZzdqN3A2djA3bnAycW16cXEzOHp5bWMifQ.PbL0cobl9SuN7K8efZ2rPg'
+                  }).addTo(mymap);
+                  return mymap;
+                }
+               function addPin(mymap, lat, lon, name) {
+                  // add a pin to mymap at lat, lon with a popup
+                  L.marker([lat, lon]).addTo(mymap).bindPopup(name);
+                }
+
+    </script>
            </head>
     <body>
       <div id="greeting"></div>
@@ -102,5 +133,8 @@
         <h2> COVID TESTING </h2>
         <div id="sheet"></div>
         </div>
+
+        <div id="mapid"></div>
+
       </body>
 </html>

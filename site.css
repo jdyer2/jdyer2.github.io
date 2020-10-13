@@ -69,3 +69,6 @@ font-style: inherit;
 .cell_phone{
 font-style: oblique;
 }
+#mapid { height: 640px;
+         width: 640px; 
+}
