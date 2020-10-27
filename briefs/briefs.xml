@@ -9,7 +9,7 @@
     <title>news1</title>
     <link>https://jdyer2.github.io/about.html</link>
     <description>site link</description>
-    <enclosure url="https://jdyer2.github.io/briefs/news1" type="audio/mpeg" length="352397"></enclosure>
+    <enclosure url="https://jdyer2.github.io/briefs/news1.mp3" type="audio/mpeg" length="352397"></enclosure>
     <guid isPermaLink="false">https://jdyer2.github.io/briefs/news1.mp3</guid>
   </item>
   <item>
@@ -17,7 +17,7 @@
     <title>news2</title>
     <link>https://jdyer2.github.io/about.html</link>
     <description>site link</description>
-    <enclosure url="https://jdyer2.github.io/briefs/news2" type="audio/mpeg" length="315530"></enclosure>
+    <enclosure url="https://jdyer2.github.io/briefs/news2.mp3" type="audio/mpeg" length="315530"></enclosure>
     <guid isPermaLink="false">https://jdyer2.github.io/briefs/news2.mp3</guid>
   </item>
 </channel>
