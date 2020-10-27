@@ -3,9 +3,9 @@
 <channel>
   <title>Johnny's Brief</title>
   <link>https://jdyer2.github.io/about.html</link>
-  <description>Class Description</description>
+  <description>place holder</description>
   <item>
-    <pubDate>Mon, 26 Oct 2020 09:00:00 -0700</pubDate>
+    <pubDate>Sun, 25 Oct 2020 09:00:00 -0700</pubDate>
     <title>news1</title>
     <link>https://jdyer2.github.io/about.html</link>
     <description>site link</description>
@@ -13,7 +13,7 @@
     <guid isPermaLink="false">https://jdyer2.github.io/briefs/news1</guid>
   </item>
   <item>
-    <pubDate>Mon, 26 Oct 2020 09:00:00 -0700</pubDate>
+    <pubDate>Sun, 25 Oct 2020 09:00:00 -0700</pubDate>
     <title>news2</title>
     <link>https://jdyer2.github.io/about.html</link>
     <description>site link</description>
